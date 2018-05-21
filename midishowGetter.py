@@ -7,7 +7,7 @@
 # @Version : 1.0
 This script downloads midi song from midishow.com
 Usage:
-    python3 midishowGetter.py <url>
+    python3 midishowGetter.py <urls/id separated by space>
 '''
 
 import wget, sys, os
@@ -16,10 +16,13 @@ import cgi
 
 outPath ="midishowDownloads/"
 
-def parse_url(url):
-    out = url.replace("/midi", "/midi/file")
-    out = out.replace("html", "mid")
-    return out
+def parse_url(key):
+    if "http" in key:
+        out = key.replace("/midi", "/midi/file")
+        out = out.replace("html", "mid")
+        return out
+    else:
+        return "http://www.midishow.com/midi/file/{}.mid".format(key)
 
 def download_file(url):
     r = requests.get(url)
