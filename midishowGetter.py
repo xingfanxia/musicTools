@@ -21,8 +21,7 @@ def parse_url(url):
     out = out.replace("html", "mid")
     return out
 
-def main():
-    url = parse_url(sys.argv[1])
+def download_file(url):
     r = requests.get(url)
     con_disp = r.headers.get('Content-Disposition').encode('ISO-8859-1').decode('utf-8')
     v, p = cgi.parse_header(con_disp)
@@ -31,6 +30,12 @@ def main():
         os.mkdir(outPath)
     open(outPath+fname, "wb").write(r.content)
     print("{} downloaded!".format(fname))
+    return "success"
+
+def main():
+    for raw in sys.argv[1:]:
+        url = parse_url(raw)
+        download_file(url)
 
 if __name__ == '__main__':
     main()
